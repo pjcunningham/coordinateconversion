@@ -9,7 +9,7 @@ uses
   LatLon in '..\units\LatLon.pas';
 
 var
-  p1, p2, midpoint : TLatLon;
+  p1, p2, p3, midpoint : TLatLon;
   dist, bearing, finalbearing : double;
 begin
   try
@@ -25,6 +25,12 @@ begin
     Writeln(finalbearing);
     Writeln(midpoint.Lon);
     Writeln(midpoint.Lat);
+
+    p3 := ConvertOSGB36toWGS84(p1);
+    Writeln(p3.Lat);
+    Writeln(p2.Lon);
+
+
 
     Writeln('Enter any key to quit ...');
     Readln;
