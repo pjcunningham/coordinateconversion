@@ -184,7 +184,7 @@ begin
   e := Floor((Trunc(self.Easting) mod 100000) / Power(10, 5 - digits / 2));
   n := Floor((Trunc(self.Northing) mod 100000) / Power(10, 5 - digits / 2));
 
-  Result := letPair + ' ' + Format('%.*d', [digits / 2, e]) + ' ' + Format('%.*d', [digits / 2, n]);
+  Result := letPair + ' ' + Format('%.*d', [digits div 2, e]) + ' ' + Format('%.*d', [digits div 2, n]);
 
 end;
 
