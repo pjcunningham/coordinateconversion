@@ -9,9 +9,6 @@ type
       fLat : double;
       fLon : double;
       fRadius : double;
-
-      function FloatingPointMod(const Dividend, Divisor : double) : double;
-
     public
       constructor Create(const lat: double; const lon: double; const rad : double =  6371.0);
       function DistanceTo (const point : TLatLon) : double;
@@ -32,14 +29,6 @@ type
 implementation
 
 uses Math, Geo;
-
-function TLatLon.FloatingPointMod(const Dividend, Divisor : double) : double;
-var
-  quotient : integer;
-begin
-  quotient := Trunc( Dividend / Divisor);
-  Result := Dividend - (quotient * Divisor);
-end;
 
 //  Creates a point on the earth's surface at the supplied latitude / longitude
 //

@@ -1,10 +1,10 @@
 ﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 		<PropertyGroup>
-			<ProjectGuid>{1BF10772-97A6-41D2-88D2-322841C07C4E}</ProjectGuid>
+			<ProjectGuid>{87AD34FE-8008-47D5-975B-50D2C7ECCA52}</ProjectGuid>
 			<ProjectVersion>12.0</ProjectVersion>
-			<MainSource>TestProject.dpr</MainSource>
 			<Config Condition="'$(Config)'==''">Debug</Config>
 			<DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+			<MainSource>CoordinateTests.dpr</MainSource>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Config)'=='Base' or '$(Base)'!=''">
 			<Base>true</Base>
@@ -20,8 +20,11 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_UnitSearchPath>$(BDS)\Source\DUnit\src;$(DCC_UnitSearchPath)</DCC_UnitSearchPath>
+			<DCC_Define>_CONSOLE_TESTRUNNER;$(DCC_Define)</DCC_Define>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
-			<DCC_DependencyCheckOutputName>TestProject.exe</DCC_DependencyCheckOutputName>
+			<DCC_DcuOutput>.</DCC_DcuOutput>
+			<DCC_DependencyCheckOutputName>CoordinateTests.exe</DCC_DependencyCheckOutputName>
 			<DCC_ImageBase>00400000</DCC_ImageBase>
 			<DCC_Platform>x86</DCC_Platform>
 		</PropertyGroup>
@@ -35,12 +38,16 @@
 			<DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
 		</PropertyGroup>
 		<ItemGroup>
-			<DelphiCompile Include="TestProject.dpr">
+			<DelphiCompile Include="CoordinateTests.dpr">
 				<MainSource>MainSource</MainSource>
 			</DelphiCompile>
-			<DCCReference Include="..\units\CoordTransform.pas"/>
+			<DCCReference Include="GeoUnitTests.pas"/>
 			<DCCReference Include="..\units\Geo.pas"/>
+			<DCCReference Include="CoordTransformTests.pas"/>
+			<DCCReference Include="..\units\CoordTransform.pas"/>
 			<DCCReference Include="..\units\LatLon.pas"/>
+			<DCCReference Include="..\units\GridRef.pas"/>
+			<DCCReference Include="GridRefUnitTests.pas"/>
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
@@ -59,9 +66,6 @@
 			<Borland.ProjectType/>
 			<BorlandProject>
 				<Delphi.Personality>
-					<Source>
-						<Source Name="MainSource">TestProject.dpr</Source>
-					</Source>
 					<Parameters>
 						<Parameters Name="UseLauncher">False</Parameters>
 						<Parameters Name="LoadAllSymbols">True</Parameters>
@@ -99,7 +103,14 @@
 						<Excluded_Packages Name="C:\Users\Public\Documents\RAD Studio\7.0\Bpl\DIHtmlLabel_D2010.bpl">(untitled)</Excluded_Packages>
 						<Excluded_Packages Name="C:\Program Files (x86)\RemObjects Software\Data Abstract for Delphi\Dcu\D14\DataAbstract_DBXDriver_D14.bpl">RemObjects Data Abstract - dbExpress Driver</Excluded_Packages>
 					</Excluded_Packages>
+					<Source>
+						<Source Name="MainSource">CoordinateTests.dpr</Source>
+					</Source>
 				</Delphi.Personality>
+				<UnitTesting>
+					<TestFramework>DUnit / Delphi Win32</TestFramework>
+					<TestRunner>GUI</TestRunner>
+				</UnitTesting>
 			</BorlandProject>
 			<ProjectFileVersion>12</ProjectFileVersion>
 		</ProjectExtensions>

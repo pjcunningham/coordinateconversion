@@ -1,0 +1,36 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{DAAB5E60-227D-484D-BB59-4BFAA61655F3}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="tests\CoordinateTests.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="CoordinateTests">
+			<MSBuild Projects="tests\CoordinateTests.dproj"/>
+		</Target>
+		<Target Name="CoordinateTests:Clean">
+			<MSBuild Targets="Clean" Projects="tests\CoordinateTests.dproj"/>
+		</Target>
+		<Target Name="CoordinateTests:Make">
+			<MSBuild Targets="Make" Projects="tests\CoordinateTests.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="CoordinateTests"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="CoordinateTests:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="CoordinateTests:Make"/>
+		</Target>
+		<Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+	</Project>

@@ -63,13 +63,9 @@ const
 
 function ConvertOSGB36toWGS84(pOSGB36 : TLatLon) : TLatLon;
 var
-  eAiry1830 : TEllipse;
-  eWGS84 : TEllipse;
   txToOSGB36 : TDatumTransform;
   txFromOSGB36 : TDatumTransform;
 begin
-  eAiry1830 := ELLIPSES.Airy1830;
-  eWGS84 := ELLIPSES.WGS84;
   txToOSGB36 := DATUMS.toOSGB36;
   with txFromOSGB36 do begin
     tx := - txToOSGB36.tx;
@@ -80,19 +76,12 @@ begin
     rz := - txToOSGB36.rz;
     s :=  - txToOSGB36.s;
   end;
-  Result := ConvertEllipsoid(pOSGB36, eAiry1830, txFromOSGB36, eWGS84);
+  Result := ConvertEllipsoid(pOSGB36, ELLIPSES.Airy1830, txFromOSGB36, ELLIPSES.WGS84);
 end;
 
 function ConvertWGS84toOSGB36(pWGS84 : TLatLon) : TLatLon;
-var
-  eWGS84 : TEllipse;
-  eAiry1830 : TEllipse;
-  txToOSGB36 : TDatumTransform;
 begin
-  eWGS84 := ELLIPSES.WGS84;
-  eAiry1830 := ELLIPSES.Airy1830;
-  txToOSGB36 := DATUMS.toOSGB36;
-  Result := ConvertEllipsoid(pWGS84, eWGS84, txToOSGB36, eAiry1830);
+  Result := ConvertEllipsoid(pWGS84, ELLIPSES.WGS84, DATUMS.toOSGB36, ELLIPSES.Airy1830);
 end;
 
 function ConvertEllipsoid(point : TLatLon; e1 : TEllipse; t : TDatumTransform; e2: TEllipse) : TLatLon;
@@ -103,10 +92,9 @@ var
   eSq, nu, x1, y1, z1, tx, ty, tz, rx, ry, rz, s1, x2, y2, z2 : double;
   precision, p, phi, phiP, lambda : double;
 begin
- // -- 1: convert polar to cartesian coordinates (using ellipse 1)
 
   lat := DegToRad(point.Lat);
-  lon := DegToRad(point.lon);
+  lon := DegToRad(point.Lon);
 
   a := e1.a;
   b := e1.b;
@@ -132,7 +120,7 @@ begin
   rx := DegToRad(t.rx / 3600);  // normalise seconds to radians
   ry := DegToRad(t.ry / 3600);
   rz := DegToRad(t.rz / 3600);
-  s1 := DegToRad(t.s / 1e6 + 1); // normalise ppm to (s+1)
+  s1 := t.s / 1e6 + 1; // normalise ppm to (s+1)
 
   // apply transform
   x2 := tx + x1 * s1 - y1 * rz + z1 * ry;
@@ -145,7 +133,7 @@ begin
   b := e2.b;
   precision := 4 / a;  // results accurate to around 4 metres
 
-  //eSq := (a * a - b * b) / (a * a);
+  eSq := (a * a - b * b) / (a * a);
   p := Sqrt(x2*x2 + y2*y2);
   phi := Math.ArcTan2(z2, p*(1-eSq));
   phiP := 2 * Pi;

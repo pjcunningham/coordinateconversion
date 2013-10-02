@@ -7,4 +7,6 @@ __history
 *.map
 *.exe
 *.dll
+*.dsk
+*.~dsk
 bin/*
