@@ -15,7 +15,7 @@ type
       class function LatLongToOSGrid(const point : TLatLon) : TOSGridRef; static;
       class function OSGridToLatLong(const gridref : TOSGridRef) : TLatLon; static;
       class function Parse(const value : string) : TOSGridRef; static;
-      function AsString(const digits : integer = 6) : string;
+      function AsString(const digits : integer = 10) : string;
       property Easting : double read fEasting;
       property Northing : double read fNorthing;
     end;
@@ -157,7 +157,7 @@ begin
    Result :=  TLatLon.Create(RadToDeg(lat), RadToDeg(lon));
 end;
 
-function TOSGridRef.AsString(const digits : integer = 6) : string;
+function TOSGridRef.AsString(const digits : integer = 10) : string;
 var
   e100k, n100k, l1, l2, e, n : integer;
   letPair : string;
@@ -181,8 +181,8 @@ begin
   letPair := Chr(l1 + Ord('A')) + Chr(l2 + Ord('A'));
 
   // strip 100km-grid indices from easting & northing, and reduce precision
-  e := Floor((e mod 100000) / Power(10, 5 - digits / 2));
-  n := Floor((n mod 100000) / Power(10, 5 - digits / 2));
+  e := Floor((Trunc(self.Easting) mod 100000) / Power(10, 5 - digits / 2));
+  n := Floor((Trunc(self.Northing) mod 100000) / Power(10, 5 - digits / 2));
 
   Result := letPair + ' ' + Format('%.*d', [digits / 2, e]) + ' ' + Format('%.*d', [digits / 2, n]);
 

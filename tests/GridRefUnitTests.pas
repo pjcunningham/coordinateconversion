@@ -17,6 +17,9 @@ type
     procedure Test01;
     procedure Test02;
     procedure Test03;
+    procedure Test04;
+    procedure Test05;
+    procedure Test06;
   end;
 
 implementation
@@ -63,13 +66,35 @@ begin
   CheckTrue((gr.Easting = 523280) and (gr.Northing = 383424), ' Parse TF2328083424');
 end;
 
-//procedure TGridRefUnitTest.Test03;
-//var
-//  gr : TOSGridRef;
-//begin
-//  gr := TOSGridRef.Parse('TF2328083424');
-//  CheckTrue((gr.Easting = 523280) and (gr.Northing = 383424), ' Parse TF2328083424');
-//end;
+procedure TGridRefUnitTest.Test04;
+var
+  gr : TOSGridRef;
+  temp : string;
+begin
+  gr := TOSGridRef.Create(523280, 383424);
+  temp := gr.AsString();
+  CheckEquals('TF 23280 83424' , temp, '523280, 383424 as string');
+end;
+
+procedure TGridRefUnitTest.Test05;
+var
+  gr : TOSGridRef;
+  temp : string;
+begin
+  gr := TOSGridRef.Create(523280, 383424);
+  temp := gr.AsString(8);
+  CheckEquals('TF 2328 8342' , temp, '523280, 383424 as string');
+end;
+
+procedure TGridRefUnitTest.Test06;
+var
+  gr : TOSGridRef;
+  temp : string;
+begin
+  gr := TOSGridRef.Create(523280, 383424);
+  temp := gr.AsString(6);
+  CheckEquals('TF 232 834' , temp, '523280, 383424 as string');
+end;
 
 
 initialization
