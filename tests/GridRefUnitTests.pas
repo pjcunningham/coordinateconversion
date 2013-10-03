@@ -20,11 +20,12 @@ type
     procedure Test04;
     procedure Test05;
     procedure Test06;
+    procedure Test07;
   end;
 
 implementation
 
-uses Math, CoordTransform, LatLon, GridRef;
+uses Math, CoordTransform, LatLon, GridRef, SysUtils;
 
 procedure TGridRefUnitTest.Test00;
 var
@@ -94,6 +95,20 @@ begin
   gr := TOSGridRef.Create(523280, 383424);
   temp := gr.AsString(6);
   CheckEquals('TF 232 834' , temp, '523280, 383424 as string');
+end;
+
+procedure TGridRefUnitTest.Test07;
+var
+  OS : TOSGridRef;
+  pWGS84, pOSGB : TLatLon;
+  temp1, temp2 : string;
+begin
+  OS := TOSGridRef.Parse('TF2328083424');
+  pOSGB := TOSGridRef.OSGridToLatLong(OS);
+  pWGS84 := ConvertOSGB36toWGS84(pOSGB);
+  temp1 := FormatFloat('##0.00000', pWGS84.Lat);
+  temp2 := FormatFloat('##0.00000', pWGS84.Lon);
+  CheckTrue((temp1 = '53.33337') and (temp2 = '-0.15016'), 'TF 2328083424 as WGS84');
 end;
 
 

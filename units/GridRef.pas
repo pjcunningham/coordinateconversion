@@ -110,17 +110,16 @@ begin
 
   lat := lat0;
   M := 0;
-  while (N - N0 - M >= 0.00001) do begin // until < 0.01mm
+  repeat // until < 0.01mm
 
-    lat := (N - N0 - M) / (a * F0) + lat;
-
+    lat := (northing - N0 - M)/(a*F0) + lat;
     Ma := (1 + n + (5/4)*n2 + (5/4)*n3) * (lat-lat0);
     Mb := (3*n + 3*n*n + (21/8)*n3) * Sin(lat-lat0) * Cos(lat+lat0);
     Mc := ((15/8)*n2 + (15/8)*n3) * Sin(2*(lat-lat0)) * Cos(2*(lat+lat0));
     Md := (35/24)*n3 * Sin(3*(lat-lat0)) * Cos(3*(lat+lat0));
     M := b * F0 * (Ma - Mb + Mc - Md);                // meridional arc
 
-  end;
+  until (Northing - N0 - M < 0.00001);
 
   cosLat := Cos(lat);
   sinLat := Sin(lat);
