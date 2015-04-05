@@ -1,4 +1,4 @@
 coordinateconversion
 ====================
 
-Delphi coordinate conversion inspired by http://www.movable-type.co.uk/
+Delphi UK Ordnance Survey coordinate conversion inspired by http://www.movable-type.co.uk/
