@@ -21,6 +21,8 @@ type
     procedure Test05;
     procedure Test06;
     procedure Test07;
+    procedure Test08;
+    procedure Test09;
   end;
 
 implementation
@@ -104,6 +106,34 @@ var
   temp1, temp2 : string;
 begin
   OS := TOSGridRef.Parse('TF2328083424');
+  pOSGB := TOSGridRef.OSGridToLatLong(OS);
+  pWGS84 := ConvertOSGB36toWGS84(pOSGB);
+  temp1 := FormatFloat('##0.00000', pWGS84.Lat);
+  temp2 := FormatFloat('##0.00000', pWGS84.Lon);
+  CheckTrue((temp1 = '53.33337') and (temp2 = '-0.15016'), 'TF 2328083424 as WGS84');
+end;
+
+procedure TGridRefUnitTest.Test08;
+var
+  OS : TOSGridRef;
+  pWGS84, pOSGB : TLatLon;
+  temp1, temp2 : string;
+begin
+  OS := TOSGridRef.Parse('TF 2328083424');
+  pOSGB := TOSGridRef.OSGridToLatLong(OS);
+  pWGS84 := ConvertOSGB36toWGS84(pOSGB);
+  temp1 := FormatFloat('##0.00000', pWGS84.Lat);
+  temp2 := FormatFloat('##0.00000', pWGS84.Lon);
+  CheckTrue((temp1 = '53.33337') and (temp2 = '-0.15016'), 'TF 2328083424 as WGS84');
+end;
+
+procedure TGridRefUnitTest.Test09;
+var
+  OS : TOSGridRef;
+  pWGS84, pOSGB : TLatLon;
+  temp1, temp2 : string;
+begin
+  OS := TOSGridRef.Parse('TF 23280 83424');
   pOSGB := TOSGridRef.OSGridToLatLong(OS);
   pWGS84 := ConvertOSGB36toWGS84(pOSGB);
   temp1 := FormatFloat('##0.00000', pWGS84.Lat);
